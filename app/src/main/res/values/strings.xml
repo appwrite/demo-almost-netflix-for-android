@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Almost Netflix</string>
+    <string name="user_name_invalid">Invalid user name.</string>
+    <string name="user_password_invalid">Invalid password.</string>
+    <string name="create_session_failed">Create session failed.</string>
+    <string name="app_title">Almost Netflix</string>
+    <string name="log_in">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="built_with">built with</string>
+    <string name="hint_user_name">Name</string>
+    <string name="hint_password">Password</string>
+    <string name="feed">Feed</string>
+    <string name="details">Content Detail</string>
+    <string name="consume">Consume</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="show_details">Show Details</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie, dui at varius tempor, ligula massa congue ligula, eu luctus massa tellus nec lorem.</string>
+    <string name="play">Play</string>
+    <string name="moreInfo">More Info</string>
+    <string name="content_card_transition_name">content_card_%1$s</string>
+    <string name="content_card_detail_transition_name">content_card_detail</string>
+    <string name="hint_user_email">Email</string>
+    <string name="splash">Splash</string>
+    <string name="myList">My List</string>
+    <string name="info">Info</string>
+    <string name="more">More Like This</string>
+    <string name="movie_watchlist">Watchlist</string>
+    <string name="subtitle">Almost the best Netflix clone.</string>
+</resources>

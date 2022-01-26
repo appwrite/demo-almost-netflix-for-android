@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.appwrite.almostnetflix.feed.MovieViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            tools:context=".feed.FeedFragment">
+
+            <ImageView
+                android:id="@+id/userProfileImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/margin_4"
+                android:background="@color/black"
+                app:appwriteAvatar="@{viewModel.userId}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/previewThumbnailImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                app:appwriteImage="@{viewModel.featuredMovie.thumbnailImageId}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:background="@drawable/bg_fade_to_black"
+                app:layout_constraintBottom_toBottomOf="@id/previewThumbnailImage"
+                app:layout_constraintEnd_toEndOf="@id/previewThumbnailImage"
+                app:layout_constraintStart_toStartOf="@id/previewThumbnailImage" />
+
+            <TextView
+                android:id="@+id/previewDescriptionText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                android:text="@{viewModel.featuredMovie.tags}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_paragraph"
+                app:layout_constraintBottom_toTopOf="@id/buttonBarrier"
+                app:layout_constraintEnd_toEndOf="@id/previewThumbnailImage"
+                app:layout_constraintStart_toStartOf="@id/previewThumbnailImage"
+                app:layout_constraintTop_toBottomOf="@id/previewThumbnailImage" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/buttonBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="myListButton, moreInfoButton" />
+
+            <ToggleButton
+                android:id="@+id/myListButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_4"
+                android:layout_marginTop="@dimen/margin_4"
+                android:background="@null"
+                android:button="@drawable/check_state"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="@{() -> viewModel.toggleFeaturedInWatchlist()}"
+                android:textColor="@color/white"
+                android:textOff="@string/myList"
+                android:textOn="@string/myList"
+                app:layout_constraintEnd_toStartOf="@id/moreInfoButton"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonBarrier" />
+
+            <Button
+                android:id="@+id/moreInfoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_4"
+                android:layout_marginTop="@dimen/margin_4"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/ic_info"
+                android:onClick="@{() -> viewModel.featuredMovieSelected()}"
+                android:text="@string/info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/myListButton"
+                app:layout_constraintTop_toBottomOf="@id/buttonBarrier" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categoryRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:transitionGroup="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myListButton"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_feed_category" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_splash">
+
+    <fragment
+        android:id="@+id/fragment_splash"
+        android:name="io.appwrite.almostnetflix.splash.SplashFragment"
+        android:label="@string/splash"
+        tools:layout="@layout/fragment_splash">
+
+        <action
+            android:id="@+id/splashToTitleAction"
+            app:destination="@id/fragment_title"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/splashToFeedAction"
+            app:destination="@id/fragment_feed"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_title"
+        android:name="io.appwrite.almostnetflix.title.TitleFragment"
+        android:label="@string/log_in"
+        tools:layout="@layout/fragment_title">
+
+        <action
+            android:id="@+id/titleToLoginAction"
+            app:destination="@id/fragment_login"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/titleToRegisterAction"
+            app:destination="@id/fragment_register"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_login"
+        android:name="io.appwrite.almostnetflix.login.LoginFragment"
+        android:label="@string/log_in"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/loginToFeedAction"
+            app:destination="@id/fragment_feed"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_register"
+        android:name="io.appwrite.almostnetflix.register.RegisterFragment"
+        android:label="@string/register"
+        tools:layout="@layout/fragment_register">
+
+        <action
+            android:id="@+id/registerToFeedAction"
+            app:destination="@id/fragment_feed"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_feed"
+        android:name="io.appwrite.almostnetflix.feed.FeedFragment"
+        android:label="@string/feed"
+        tools:layout="@layout/fragment_feed">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/feedToMovieDetailAction"
+            app:destination="@id/fragment_movie_detail">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="movieId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/feedToWatchlistAction"
+            app:destination="@id/fragment_watchlist">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_movie_detail"
+        android:name="io.appwrite.almostnetflix.movie.MovieDetailFragment"
+        android:label="@string/movie_details"
+        tools:layout="@layout/fragment_movie_detail">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_watchlist"
+        android:name="io.appwrite.almostnetflix.watchlist.WatchlistFragment"
+        android:label="@string/movie_watchlist"
+        tools:layout="@layout/fragment_watchlist">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/watchlistToMovieDetailAction"
+            app:destination="@id/fragment_movie_detail">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="movieId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+    </fragment>
+</navigation>
