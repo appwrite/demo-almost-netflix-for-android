@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.appwrite.almostnetflix.core.Configuration
 import io.appwrite.exceptions.AppwriteException
-import io.appwrite.models.User
+import io.appwrite.models.Account as User
 import io.appwrite.services.Account
 import kotlinx.coroutines.launch
 

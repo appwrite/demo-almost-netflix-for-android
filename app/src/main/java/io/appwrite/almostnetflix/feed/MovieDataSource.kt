@@ -1,33 +1,39 @@
 package io.appwrite.almostnetflix.feed
 
 import io.appwrite.Client
+import io.appwrite.ID.Companion.unique
+import io.appwrite.Permission
 import io.appwrite.Query
 import io.appwrite.almostnetflix.core.Configuration
 import io.appwrite.almostnetflix.model.Category
 import io.appwrite.almostnetflix.model.Movie
 import io.appwrite.exceptions.AppwriteException
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import io.appwrite.services.Realtime
 
 class MovieDataSource(
     private val client: Client,
 ) {
-    private val database by lazy { Database(client) }
+    private val databases by lazy { Databases(client) }
     private val realtime by lazy { Realtime(client) }
 
     @Throws
     suspend fun getMovies(
         category: Category,
     ): List<Movie> {
-        val movieDocuments = database.listDocuments(
+
+        // apply any order attributes from the category to the query
+        val orderQuery: List<String> = category.orderAttributes.map {
+            Query.orderDesc(it)
+        }
+
+        val queries = category.queries.toMutableList()
+        queries.addAll(orderQuery)
+
+        val movieDocuments = databases.listDocuments(
+            databaseId = Configuration.DATABASE_ID,
             collectionId = category.collectionName ?: Configuration.MOVIE_COLLECTION_ID,
-            queries = category.queries,
-            limit = null,
-            offset = null,
-            cursor = null,
-            cursorDirection = null,
-            orderAttributes = category.orderAttributes,
-            orderTypes = category.orderTypes
+            queries = queries
         )
 
         return movieDocuments.convertTo(::Movie)
@@ -35,7 +41,8 @@ class MovieDataSource(
 
     @Throws
     suspend fun getMovie(movieId: String): Movie {
-        val movie = database.getDocument(
+        val movie = databases.getDocument(
+            databaseId = Configuration.DATABASE_ID,
             collectionId = Configuration.MOVIE_COLLECTION_ID,
             documentId = movieId
         )
@@ -43,11 +50,13 @@ class MovieDataSource(
     }
 
     suspend fun getFeaturedMovie(): Movie? {
-        val featured = database.listDocuments(
+        val featured = databases.listDocuments(
+            databaseId = Configuration.DATABASE_ID,
             collectionId = Configuration.MOVIE_COLLECTION_ID,
-            limit = 1,
-            orderAttributes = listOf("trendingIndex"),
-            orderTypes = listOf("DESC")
+            queries = listOf(
+                Query.limit(1),
+                Query.orderDesc("trendingIndex")
+            ),
         )
 
         return featured
@@ -56,10 +65,11 @@ class MovieDataSource(
     }
 
     suspend fun getMyWatchlist(userId: String, movieIds: List<String>): List<Movie> {
-        val movies = database.listDocuments(
+        val movies = databases.listDocuments(
+            databaseId = Configuration.DATABASE_ID,
             collectionId = Configuration.MOVIE_COLLECTION_ID,
             queries = listOf(
-                Query.equal("\$id", movieIds)
+                Query.equal("\$id", value = movieIds.toString()),
             )
         )
         return movies.convertTo(::Movie)
@@ -67,16 +77,19 @@ class MovieDataSource(
 
     suspend fun addToWatchlist(userId: String, movieId: String): Boolean {
         try {
-            database.createDocument(
+            databases.createDocument(
+                databaseId = Configuration.DATABASE_ID,
                 collectionId = Configuration.WATCHLIST_COLLECTION_ID,
-                documentId = "unique()",
+                documentId = unique(),
                 data = mapOf(
                     "userId" to userId,
                     "movieId" to movieId,
                     "createdAt" to System.currentTimeMillis()
                 ),
-                read = listOf("user:$userId"),
-                write = listOf("user:$userId")
+                permissions = listOf(
+                    Permission.read("user:$userId"),
+                    Permission.write("user:$userId")
+                )
             )
             return true
         } catch (ex: AppwriteException) {
@@ -87,13 +100,14 @@ class MovieDataSource(
 
     suspend fun removeFromWatchlist(userId: String, movieId: String): Boolean {
         val list = try {
-            database.listDocuments(
+            databases.listDocuments(
+                databaseId = Configuration.DATABASE_ID,
                 collectionId = Configuration.WATCHLIST_COLLECTION_ID,
                 queries = listOf(
                     Query.equal("userId", value = userId),
-                    Query.equal("movieId", value = movieId)
+                    Query.equal("movieId", value = movieId),
+                    Query.limit(1)
                 ),
-                limit = 1
             )
         } catch (ex: AppwriteException) {
             ex.printStackTrace()
@@ -101,7 +115,8 @@ class MovieDataSource(
         }
 
         try {
-            database.deleteDocument(
+            databases.deleteDocument(
+                databaseId = Configuration.DATABASE_ID,
                 collectionId = Configuration.WATCHLIST_COLLECTION_ID,
                 documentId = list.documents.first().id
             )
@@ -115,7 +130,8 @@ class MovieDataSource(
 
     suspend fun getWatchlistedIds(userId: String, movieIds: List<String>): List<String> {
         return try {
-            database.listDocuments(
+            databases.listDocuments(
+                databaseId = Configuration.DATABASE_ID,
                 collectionId = Configuration.WATCHLIST_COLLECTION_ID,
                 queries = listOf(
                     Query.equal("userId", value = userId),
@@ -139,7 +155,8 @@ class MovieDataSource(
 
     suspend fun getSimilarMovies(movie: Movie): List<Movie> {
         return try {
-            val similar = database.listDocuments(
+            val similar = databases.listDocuments(
+                databaseId = Configuration.DATABASE_ID,
                 collectionId = Configuration.MOVIE_COLLECTION_ID,
                 queries = listOf(
                     Query.equal("genres", value = movie.genres)

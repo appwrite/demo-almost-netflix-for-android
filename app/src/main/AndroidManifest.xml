@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.appwrite.almostnetflix">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,8 +24,21 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
+        <!-- Add this inside the `<application>` tag, along side the existing `<activity>` tags -->
+        <activity
+            android:name="io.appwrite.views.CallbackActivity"
+            android:exported="true">
+            <intent-filter android:label="android_web_auth">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="appwrite-callback-almostNetflix2"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

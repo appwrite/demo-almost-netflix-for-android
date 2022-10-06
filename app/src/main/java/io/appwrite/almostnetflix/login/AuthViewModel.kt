@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import io.appwrite.Client
+import io.appwrite.ID.Companion.unique
 import io.appwrite.almostnetflix.core.*
 import io.appwrite.exceptions.AppwriteException
-import io.appwrite.models.User
+import io.appwrite.models.Account as User
 import io.appwrite.services.Account
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class AuthViewModel(private val client: Client) : BaseViewModel() {
             }
 
             try {
-                account.createSession(
+                account.createEmailSession(
                     username.value,
                     password.value
                 )
@@ -73,10 +74,10 @@ class AuthViewModel(private val client: Client) : BaseViewModel() {
 
             try {
                 account.create(
-                    "unique()",
-                    name.value,
-                    username.value,
-                    password.value
+                   userId = unique(),
+                   name = name.value,
+                   email = username.value,
+                   password = password.value
                 )
                 login()
             } catch (ex: AppwriteException) {

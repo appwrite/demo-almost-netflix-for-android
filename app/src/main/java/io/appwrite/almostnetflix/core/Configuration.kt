@@ -10,8 +10,10 @@ object Configuration {
 
     const val ENDPOINT = "https://demo.appwrite.io/v1"
     const val PROJECT_ID = "almostNetflix2"
-    const val MOVIE_COLLECTION_ID = "movies"
-    const val WATCHLIST_COLLECTION_ID = "watchlists"
+    const val DATABASE_ID = "YOUR_DATABASE_ID"
+    const val MOVIE_COLLECTION_ID = "YOUR_COLLECTION_ID"
+    const val WATCHLIST_COLLECTION_ID = "YOUR_COLLECTION_ID"
+    const val STORAGE_BUCKET_ID = "YOUR_BUCKET_ID"
 
     val categories = listOf(
         Category(
@@ -28,13 +30,13 @@ object Configuration {
         ),
         Category(
             title = "New Releases",
-            queries = listOf(Query.greaterEqual("releaseDate", 2018)),
+            queries = listOf(Query.greaterThanEqual("releaseDate", 2018)),
             orderAttributes = listOf("releaseDate"),
             orderTypes = listOf("DESC")
         ),
         Category(
-            title = "Movies longers than 2 hours",
-            queries = listOf(Query.greaterEqual("durationMinutes", 120)),
+            title = "Movies longer than 2 hours",
+            queries = listOf(Query.greaterThanEqual("durationMinutes", 120)),
             orderAttributes = listOf("durationMinutes"),
             orderTypes = listOf("DESC")
         ),
@@ -63,7 +65,7 @@ object Configuration {
             orderTypes = listOf("DESC")
         ),
         Category(
-            title = "SAnime",
+            title = "Anime",
             queries = listOf(Query.search("tags", "Anime")),
             orderAttributes = listOf("trendingIndex"),
             orderTypes = listOf("DESC")

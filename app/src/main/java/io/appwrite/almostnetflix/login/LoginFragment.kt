@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.appwrite.almostnetflix.R
 import io.appwrite.almostnetflix.core.*
 import io.appwrite.almostnetflix.databinding.FragmentLoginBinding
-import io.appwrite.models.User
+import io.appwrite.models.Account
 
 class LoginFragment : Fragment() {
 
@@ -55,9 +55,9 @@ class LoginFragment : Fragment() {
         inputs.visibility = View.VISIBLE
     }
 
-    private fun navigateToFeed(user: User) {
+    private fun navigateToFeed(account: Account) {
         findNavController().navigate(
-            LoginFragmentDirections.loginToFeedAction(user.id)
+            LoginFragmentDirections.loginToFeedAction(account.id)
         )
     }
 
