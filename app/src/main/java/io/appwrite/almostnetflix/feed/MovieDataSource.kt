@@ -2,6 +2,7 @@ package io.appwrite.almostnetflix.feed
 
 import io.appwrite.Client
 import io.appwrite.ID.Companion.unique
+import io.appwrite.ID.Companion
 import io.appwrite.Permission
 import io.appwrite.Query
 import io.appwrite.Role
@@ -76,8 +77,7 @@ class MovieDataSource(
                 documentId = unique(),
                 data = mapOf(
                     "userId" to userId,
-                    "movieId" to movieId,
-                    "createdAt" to System.currentTimeMillis()
+                    "movieId" to movieId
                 ),
                 permissions = listOf(
                     Permission.read(Role.user(userId)),
