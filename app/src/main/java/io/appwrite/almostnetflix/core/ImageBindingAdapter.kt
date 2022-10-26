@@ -24,7 +24,7 @@ fun ImageView.loadAppwriteImage(imageId: String?) {
 
     findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
         val url =
-            "${Configuration.ENDPOINT}/storage/buckets/${STORAGE_BUCKET_ID}/files/${imageId}/preview?project=${Configuration.PROJECT_ID}"
+            "${Configuration.ENDPOINT}/storage/buckets/${STORAGE_BUCKET_ID}/files/${imageId}/view?project=${Configuration.PROJECT_ID}"
 
         Glide
             .with(this@loadAppwriteImage)
