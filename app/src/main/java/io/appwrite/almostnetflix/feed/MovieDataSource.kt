@@ -4,6 +4,7 @@ import io.appwrite.Client
 import io.appwrite.ID.Companion.unique
 import io.appwrite.Permission
 import io.appwrite.Query
+import io.appwrite.Role
 import io.appwrite.almostnetflix.core.Configuration
 import io.appwrite.almostnetflix.model.Category
 import io.appwrite.almostnetflix.model.Movie
@@ -69,7 +70,7 @@ class MovieDataSource(
             databaseId = Configuration.DATABASE_ID,
             collectionId = Configuration.MOVIE_COLLECTION_ID,
             queries = listOf(
-                Query.equal("\$id", value = movieIds.toString()),
+                Query.equal("\$id", value = movieIds),
             )
         )
         return movies.convertTo(::Movie)
@@ -87,8 +88,8 @@ class MovieDataSource(
                     "createdAt" to System.currentTimeMillis()
                 ),
                 permissions = listOf(
-                    Permission.read("user:$userId"),
-                    Permission.write("user:$userId")
+                    Permission.read(Role.user(userId)),
+                    Permission.write(Role.user(userId))
                 )
             )
             return true
