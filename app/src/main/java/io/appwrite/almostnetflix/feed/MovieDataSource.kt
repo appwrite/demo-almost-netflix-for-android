@@ -23,18 +23,10 @@ class MovieDataSource(
         category: Category,
     ): List<Movie> {
 
-        // apply any order attributes from the category to the query
-        val orderQuery: List<String> = category.orderAttributes.map {
-            Query.orderDesc(it)
-        }
-
-        val queries = category.queries.toMutableList()
-        queries.addAll(orderQuery)
-
         val movieDocuments = databases.listDocuments(
             databaseId = Configuration.DATABASE_ID,
             collectionId = category.collectionName ?: Configuration.MOVIE_COLLECTION_ID,
-            queries = queries
+            queries = category.queries
         )
 
         return movieDocuments.convertTo(::Movie)
