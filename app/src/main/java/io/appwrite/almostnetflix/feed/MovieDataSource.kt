@@ -2,7 +2,6 @@ package io.appwrite.almostnetflix.feed
 
 import io.appwrite.Client
 import io.appwrite.ID.Companion.unique
-import io.appwrite.ID.Companion
 import io.appwrite.Permission
 import io.appwrite.Query
 import io.appwrite.Role
@@ -59,6 +58,11 @@ class MovieDataSource(
     }
 
     suspend fun getMyWatchlist(userId: String, movieIds: List<String>): List<Movie> {
+
+        if (movieIds.isEmpty()) {
+            return emptyList()
+        }
+
         val movies = databases.listDocuments(
             databaseId = Configuration.DATABASE_ID,
             collectionId = Configuration.MOVIE_COLLECTION_ID,
