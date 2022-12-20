@@ -14,7 +14,7 @@ import io.appwrite.almostnetflix.R
 import io.appwrite.almostnetflix.core.*
 import io.appwrite.almostnetflix.databinding.FragmentRegisterBinding
 import io.appwrite.almostnetflix.login.AuthViewModel
-import io.appwrite.models.User
+import io.appwrite.models.Account
 
 class RegisterFragment : Fragment() {
 
@@ -56,9 +56,9 @@ class RegisterFragment : Fragment() {
         inputs.visibility = View.VISIBLE
     }
 
-    private fun navigateToFeed(user: User) {
+    private fun navigateToFeed(account: Account) {
         findNavController().navigate(
-            RegisterFragmentDirections.registerToFeedAction(user.id)
+            RegisterFragmentDirections.registerToFeedAction(account.id)
         )
     }
 

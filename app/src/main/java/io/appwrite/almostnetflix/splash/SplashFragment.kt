@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import io.appwrite.almostnetflix.core.*
 import io.appwrite.almostnetflix.databinding.FragmentSplashBinding
-import io.appwrite.models.User
+import io.appwrite.models.Account
 
 class SplashFragment : Fragment() {
 
@@ -50,9 +50,9 @@ class SplashFragment : Fragment() {
         )
     }
 
-    private fun navigateToFeed(user: User) {
+    private fun navigateToFeed(account: Account) {
         findNavController().navigate(
-            SplashFragmentDirections.splashToFeedAction(user.id)
+            SplashFragmentDirections.splashToFeedAction(account.id)
         )
     }
 }
